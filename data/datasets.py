@@ -28,7 +28,7 @@ class ScutFBPDataset(Dataset):
     def __getitem__(self, idx):
         image = io.imread(os.path.join(cfg['scut_fbp_dir'], 'SCUT-FBP-%d.jpg' % self.face_files[idx]))
         score = self.face_score[idx]
-
+        # print('index image {}'.format(self.face_files[idx]))
         sample = {'image': image, 'score': score, 'class': round(score) - 1,
                   'filename': 'SCUT-FBP-%d.jpg' % self.face_files[idx]}
 

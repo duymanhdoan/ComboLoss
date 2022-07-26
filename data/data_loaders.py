@@ -16,8 +16,9 @@ def load_scutfbp():
     load SCUTFBP Dataset
     :return:
     """
-    df = pd.read_excel('../data/SCUT-FBP.xlsx', sheet_name='Sheet1')
-    X_train, X_test, y_train, y_test = train_test_split(df['Image'].tolist(), df['Attractiveness label'],
+    print('path {}'.format(cfg['scut-fbp-attractive-label']))
+    df = pd.read_excel(cfg['scut-fbp-attractive-label'], sheet_name='Sheet1')
+    X_train, X_test, y_train, y_test = train_test_split(df['#Image'].tolist(), df['Attractiveness label'],
                                                         test_size=0.2, random_state=cfg['random_seed'])
 
     resize_to = 224
