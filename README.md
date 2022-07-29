@@ -1,4 +1,36 @@
 # ComboLoss for Facial Attractiveness Analysis with Squeeze-and-Excitation Networks
+
+# Using Respository code 
+step 1: Clone code 
+```
+  git clone https://github.com/duymanhdoan/ComboLoss.git
+```
+step 2:  
+```
+  cd ComboLoss
+```
+
+step 3: Create env 
+```
+conda create --name fbeauty python=3.6
+```
+step 4: install environment 
+
+```
+pip install -r requirements.txt
+```
+
+
+step 5: training
+
+![config path to dataset](https://github.com/duymanhdoan/ComboLoss/blob/main/config.py)
+```
+python3 run_fbp.py
+
+```
+
+
+
 ## Introduction
 This repository holds the official PyTorch implementation of paper ``ComboLoss for Facial Attractiveness Analysis with Squeeze-and-Excitation Networks``. 
 With SEResNeXt50 as backbone, ComboLoss achieves state-of-the-art performance on ``SCUT-FBP, HotOrNot and SCUT-FBP5500 dataset``, which outperforms 
