@@ -7,7 +7,7 @@ from torchvision import transforms
 from torchvision.transforms import Lambda
 
 sys.path.append('../')
-from config.cfg import cfg
+from config import cfg
 from data.datasets import ScutFBPDataset, HotOrNotDataset, SCUTFBP5500Dataset, SCUTFBP5500DatasetCV
 
 

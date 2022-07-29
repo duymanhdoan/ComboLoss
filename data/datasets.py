@@ -9,7 +9,7 @@ from skimage import io
 from torch.utils.data import Dataset
 
 sys.path.append('../')
-from config.cfg import cfg
+from config import cfg
 
 
 class ScutFBPDataset(Dataset):
@@ -26,14 +26,16 @@ class ScutFBPDataset(Dataset):
         return len(self.face_files)
 
     def __getitem__(self, idx):
-        image = io.imread(os.path.join(cfg['scut_fbp_dir'], 'SCUT-FBP-%d.jpg' % self.face_files[idx]))
+        image = io.imread(os.path.join(
+            cfg['scut_fbp_dir'], 'SCUT-FBP-%d.jpg' % self.face_files[idx]))
         score = self.face_score[idx]
         # print('index image {}'.format(self.face_files[idx]))
         sample = {'image': image, 'score': score, 'class': round(score) - 1,
                   'filename': 'SCUT-FBP-%d.jpg' % self.face_files[idx]}
 
         if self.transform:
-            sample['image'] = self.transform(Image.fromarray(sample['image'].astype(np.uint8)))
+            sample['image'] = self.transform(
+                Image.fromarray(sample['image'].astype(np.uint8)))
 
         return sample
 
@@ -44,7 +46,8 @@ class HotOrNotDataset(Dataset):
             os.path.join(os.path.split(os.path.abspath(cfg['hotornot_dir']))[0],
                          'eccv2010_split%d.csv' % cv_split_index), header=None)
 
-        filenames = [os.path.join(cfg['hotornot_dir'], _.replace('.bmp', '.jpg')) for _ in df.iloc[:, 0].tolist()]
+        filenames = [os.path.join(cfg['hotornot_dir'], _.replace(
+            '.bmp', '.jpg')) for _ in df.iloc[:, 0].tolist()]
         scores = df.iloc[:, 1].tolist()
         flags = df.iloc[:, 2].tolist()
 
@@ -84,7 +87,8 @@ class HotOrNotDataset(Dataset):
                   'filename': os.path.basename(self.face_files[idx])}
 
         if self.transform:
-            sample['image'] = self.transform(Image.fromarray(sample['image'].astype(np.uint8)))
+            sample['image'] = self.transform(
+                Image.fromarray(sample['image'].astype(np.uint8)))
 
         return sample
 
@@ -116,12 +120,15 @@ class SCUTFBP5500Dataset(Dataset):
         return len(self.face_img)
 
     def __getitem__(self, idx):
-        image = io.imread(os.path.join(cfg['scutfbp5500_base'], 'Images', self.face_img[idx]))
+        image = io.imread(os.path.join(
+            cfg['scutfbp5500_base'], 'Images', self.face_img[idx]))
         score = self.face_score[idx]
-        sample = {'image': image, 'score': score, 'class': round(score) - 1, 'filename': self.face_img[idx]}
+        sample = {'image': image, 'score': score, 'class': round(
+            score) - 1, 'filename': self.face_img[idx]}
 
         if self.transform:
-            sample['image'] = self.transform(Image.fromarray(sample['image'].astype(np.uint8)))
+            sample['image'] = self.transform(
+                Image.fromarray(sample['image'].astype(np.uint8)))
 
         return sample
 
@@ -160,7 +167,8 @@ class SCUTFBP5500DatasetCV(Dataset):
         return len(self.face_img)
 
     def __getitem__(self, idx):
-        image = io.imread(os.path.join(cfg['scutfbp5500_base'], 'Images', self.face_img[idx]))
+        image = io.imread(os.path.join(
+            cfg['scutfbp5500_base'], 'Images', self.face_img[idx]))
         attractiveness = self.face_score[idx]
         gender = 1 if self.face_img[idx].split('.')[0][0] == 'm' else 0
         race = 1 if self.face_img[idx].split('.')[0][2] == 'w' else 0
@@ -170,6 +178,7 @@ class SCUTFBP5500DatasetCV(Dataset):
                   'filename': self.face_img[idx]}
 
         if self.transform:
-            sample['image'] = self.transform(Image.fromarray(sample['image'].astype(np.uint8)))
+            sample['image'] = self.transform(
+                Image.fromarray(sample['image'].astype(np.uint8)))
 
         return sample
