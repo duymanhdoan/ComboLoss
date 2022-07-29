@@ -22,7 +22,7 @@ from models.losses import ReconstructionLoss
 from data.data_loaders import load_reconstruct_scutfbp, load_reconstruct_hotornot, load_reconstruct_scutfbp5500_64, \
     load_reconstruct_scutfbp5500_cv
 from util.file_util import mkdirs_if_not_exist
-from config.cfg import cfg
+from config import cfg
 
 
 def train_model(model, dataloaders, criterion, optimizer, scheduler, num_epochs, inference=False):

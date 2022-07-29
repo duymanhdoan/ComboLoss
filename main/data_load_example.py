@@ -7,7 +7,7 @@ from torch import nn
 
 sys.path.append('../')
 from data.data_loaders import load_scutfbp, load_hotornot, load_scutfbp5500_64, load_scutfbp5500_cv
-from config.cfg import cfg
+from config import cfg
 from util.file_util import mkdirs_if_not_exist
 from pytorchcv.model_provider import get_model as ptcv_get_model
 
