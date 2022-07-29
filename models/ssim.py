@@ -5,7 +5,7 @@ from math import exp
 from torch.autograd import Variable
 
 sys.path.append('../')
-from config.cfg import cfg
+from config import cfg
 
 
 def gaussian(window_size, sigma):

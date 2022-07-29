@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from config.cfg import cfg
+from config import cfg
 
 
 def mkdirs_if_not_exist(dir_name):

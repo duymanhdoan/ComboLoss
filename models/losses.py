@@ -5,7 +5,7 @@ import numpy as np
 from torch.nn.modules.loss import _Loss
 from torch.nn import functional as F
 
-from config.cfg import cfg
+from config import cfg
 from models.ssim import SSIMLoss
 
 
@@ -31,7 +31,7 @@ class ReconstructionLoss(nn.Module):
         ssim_criterion = self.cosine_criterion(pred, gt)
 
         reconstruction_loss = self.mse_w * torch.abs(mse_loss) + self.cos_w * torch.abs(cosine_loss) \
-                              + self.ssim_w * torch.abs(ssim_criterion)
+            + self.ssim_w * torch.abs(ssim_criterion)
 
         return reconstruction_loss
 
@@ -44,11 +44,13 @@ class ExpectationLoss(nn.Module):
     def __init__(self):
         super(ExpectationLoss, self).__init__()
 
-        self.device = torch.device('cuda:0' if torch.cuda.is_available() and cfg['use_gpu'] else 'cpu')
+        self.device = torch.device(
+            'cuda:0' if torch.cuda.is_available() and cfg['use_gpu'] else 'cpu')
         self.mae = nn.L1Loss()
 
     def forward(self, probs, cls, gts):
-        cls = torch.from_numpy(np.array([[1.0, 2.0, 3.0, 4.0, 5.0]], dtype=np.float).T).to(self.device)
+        cls = torch.from_numpy(
+            np.array([[1.0, 2.0, 3.0, 4.0, 5.0]], dtype=np.float).T).to(self.device)
         # cls = torch.from_numpy(np.array([[1.0, 2.0, 3.0]], dtype=np.float).T).to(self.device)
         return self.mae(torch.mm(probs, cls.float()).view(-1), gts)
 
@@ -66,11 +68,13 @@ class CombinedLoss(nn.Module):
         self.gamma = gamma
         self.mae_criterion = nn.L1Loss()
         self.expectation_criterion = ExpectationLoss()
-        self.xent_criterion = nn.CrossEntropyLoss(weight=torch.Tensor(xent_weight).to("cpu"))
+        self.xent_criterion = nn.CrossEntropyLoss(
+            weight=torch.Tensor(xent_weight).to("cpu"))
 
     def forward(self, pred_score, gt_score, pred_probs, pred_cls, gt_cls):
         mae_loss = self.mae_criterion(pred_score, gt_score)
-        expectation_loss = self.expectation_criterion(pred_probs, pred_cls, gt_score)
+        expectation_loss = self.expectation_criterion(
+            pred_probs, pred_cls, gt_score)
         xent_loss = self.xent_criterion(pred_probs, gt_cls)
 
         return self.alpha * mae_loss + self.beta * expectation_loss + self.gamma * xent_loss
